@@ -121,7 +121,7 @@ ks=[[0,4*pi/sqrt(3)/N*i] for i=0:N]
 ks1=[[2*pi/N*i,-2*pi/sqrt(3)/N*i] for i=0:N]
 ks2=[[-2*pi/N*i,-2*pi/sqrt(3)/N*i] for i=0:N]
 kp=[[2*pi/N*i,4*pi/sqrt(3)/N*(N-i)-2*pi/sqrt(3)/N*i] for i=1:N-1]
-kp1=[[2*pi/N*(N-2*i),-2*pi/sqrt(3)] for i=1:29]
+kp1=[[2*pi/N*(N-2*i),-2*pi/sqrt(3)] for i=1:N-1]
 kp2=[[-2*pi/N*i,4*pi/sqrt(3)/N*(N-i)-2*pi/sqrt(3)/N*i] for i=1:N-1]
 k=cat(ks,kp,ks1[end:-1:1],dims=1)
 k1=cat(ks1,kp1,ks2[end:-1:1],dims=1)
@@ -142,7 +142,7 @@ sp=log.(sp.+1)
 
 
 using Plots
-heatmap(1:91,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,0.000001))
+heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,0.000001))
 ```
 
 
