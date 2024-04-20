@@ -5,7 +5,7 @@ DocMeta.setdocmeta!(ClassicalSpinMonteCarlo, :DocTestSetup, :(using ClassicalSpi
 
 makedocs(;
     modules=[ClassicalSpinMonteCarlo],
-    authors="wwangnju <wwangnju@163.com> and contributors",
+    authors="qscdesz <emccdzynju@163.com>, wwangnju <wwangnju@163.com> and contributors",
     repo="https://github.com/Quantum-Many-Body/ClassicalSpinMonteCarlo.jl/blob/{commit}{path}#{line}",
     sitename="ClassicalSpinMonteCarlo.jl",
     format=Documenter.HTML(;
@@ -16,6 +16,9 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Examples" => [
+            "examples/HoneycombAntiferromagnet.md",
+        ]
     ],
 )
 
