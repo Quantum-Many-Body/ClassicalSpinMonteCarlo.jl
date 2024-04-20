@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Honeycomb Antiferromagnet · ClassicalSpinMonteCarlo.jl</title><meta name="title" content="Honeycomb Antiferromagnet · ClassicalSpinMonteCarlo.jl"/><meta property="og:title" content="Honeycomb Antiferromagnet · ClassicalSpinMonteCarlo.jl"/><meta property="twitter:title" content="Honeycomb Antiferromagnet · ClassicalSpinMonteCarlo.jl"/><meta name="description" content="Documentation for ClassicalSpinMonteCarlo.jl."/><meta property="og:description" content="Documentation for ClassicalSpinMonteCarlo.jl."/><meta property="twitter:description" content="Documentation for ClassicalSpinMonteCarlo.jl."/><meta property="og:url" content="https://Quantum-Many-Body.github.io/ClassicalSpinMonteCarlo.jl/examples/HoneycombAntiferromagnet/"/><meta property="twitter:url" content="https://Quantum-Many-Body.github.io/ClassicalSpinMonteCarlo.jl/examples/HoneycombAntiferromagnet/"/><link rel="canonical" href="https://Quantum-Many-Body.github.io/ClassicalSpinMonteCarlo.jl/examples/HoneycombAntiferromagnet/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClassicalSpinMonteCarlo.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Examples</span><ul><li class="is-active"><a class="tocitem" href>Honeycomb Antiferromagnet</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Honeycomb Antiferromagnet</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Honeycomb Antiferromagnet</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/Quantum-Many-Body/ClassicalSpinMonteCarlo.jl/blob/master/docs/src/examples/HoneycombAntiferromagnet.md#" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Honeycomb-Antiferromagnet"><a class="docs-heading-anchor" href="#Honeycomb-Antiferromagnet">Honeycomb Antiferromagnet</a><a id="Honeycomb-Antiferromagnet-1"></a><a class="docs-heading-anchor-permalink" href="#Honeycomb-Antiferromagnet" title="Permalink"></a></h1><p>Spin dynamics of XXZ model in honeycomb lattice.</p><pre><code class="language-julia hljs">using ClassicalSpinMonteCarlo
+using LinearAlgebra
+
+#AB子格构造元胞
+a1 = (1.0, 0.0)
+a2=(1.0/2, √3/2)
+uc = UnitCell(a1,a2)
+
+#平移基矢
+b1 = addBasisSite!(uc, (0.0,0.0))
+b2 = addBasisSite!(uc, (0.5, √3/6))
+
+#自旋相互作用矩阵(sx sy sz)*J*(sx sy sz)&#39;
+J1y = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
+J1x = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
+J1z = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
+
+#dxy= -0.23*1.08/3*[1.0 1.0 1.0;1.0 1.0 1.0;1.0 1.0 1.0]
+
+#h=[1.0,1.0,1.0]
+
+#JB= zeros(3,3,3,3)
+#for i=1:3,j=1:3
+#	JB[i,j,i,j]=-0.35
+#end
+
+
+#onsite相互作用
+#addInteraction!(uc, [b1, b1], [(0,0),(0,0)],dxy)
+#addInteraction!(uc, [b2, b2], [(0,0),(0,0)],dxy)
+
+#addInteraction!(元胞, 子格[向量], 对应的正格矢[向量],相互作用张量[Array{n}]n=自旋算符数量)
+
+addInteraction!(uc, [b1, b2], [(0,0),(0,0)],J1y)
+addInteraction!(uc, [b1, b2], [(0,0),(-1,0)],J1x)
+addInteraction!(uc, [b1, b2], [(0,0),(0,-1)],J1z)
+
+
+#多极子相互作用
+#addInteraction!(uc, [b1, b1,b2,b2], [(0,0),(0,0),(0,0),(0,0)],JB)
+#addInteraction!(uc, [b1, b1,b2,b2], [(0,0),(0,0),(-1,0),(-1,0)],JB)
+#addInteraction!(uc, [b1, b1,b2,b2], [(0,0),(0,0),(0,-1),(0,-1)],JB)
+
+
+#外场
+#addInteraction!(uc, [b1], [(0,)],[0.0,0.0,1])
+
+#退火轮数
+thermalizationSweeps = 5000
+#样本数目
+measurementSweeps = 3
+#1/温度
+beta = 3.0#8.86817
+
+#格子尺寸
+L = (10,10)
+
+#初始化格子
+lattice = Lattice(uc, L)
+#可以初始化自旋构型Matrix(Float,3(自旋矢量xyz三个分量),格点数目)
+#lattice.spins=spins
+
+
+#初始化MC
+m = MonteCarlo(lattice, beta, thermalizationSweeps, measurementSweeps)
+#m = MonteCarlo(格子, 1/温度, 退火轮次, 样本数目)
+
+#运行
+run!(m)
+
+#计算比热与误差
+#c(e) = beta * beta * (e[2] - e[1] * e[1]) * length(m.lattice)
+#∇c(e) = [-2.0 * beta * beta * e[1] * length(m.lattice), beta * beta * length(m.lattice)]
+#heat[i] = mean(m.observables.energy, c)
+#dheat[i] = std_error(m.observables.energy, ∇c)
+
+
+#计算磁化与误差
+#mean(m.observables.magnetization)
+#dmagnetization[i] = std_error(m.observables.magnetization)
+
+#计算自旋结构因子
+k,s=structure_factor(m.lattice,30)
+#倒空间[vector[kx],vector[ky]],自旋结构因子=structure_factor(m.lattice,30)
+
+#heatmap(k[1],k[2],(s[1,:,:]+s[2,:,:]+s[3,:,:])&#39;)
+
+
+
+#初始化自旋激发谱
+sd=SpinDynamic(m.lattice,beta,3,nenergy=2000,denergy=0.02)
+#sd=SpinDynamic(格子,1/温度,样本数目,能量数目,能量间隔)
+#可选：sd=SpinDynamic(格子,1/温度,步长=2*pi/能量数目/能量间隔，样本数目,能量间隔)
+
+#先退火5轮再计算
+#run!(sd)
+
+
+#初始化自旋
+spin=zeros(3,2*prod(L))
+spin[3,1:2:end].=1
+spin[3,2:2:end].=-1
+sd.lattice.spins=spin
+#直接计算
+LLGrun!(sd)
+
+#计算结构因子
+#k,s=structure_factor(sd,30)
+
+#k空间高对称线
+N=L[1]
+ks=[[0,4*pi/sqrt(3)/N*i] for i=0:N]
+ks1=[[2*pi/N*i,-2*pi/sqrt(3)/N*i] for i=0:N]
+ks2=[[-2*pi/N*i,-2*pi/sqrt(3)/N*i] for i=0:N]
+kp=[[2*pi/N*i,4*pi/sqrt(3)/N*(N-i)-2*pi/sqrt(3)/N*i] for i=1:N-1]
+kp1=[[2*pi/N*(N-2*i),-2*pi/sqrt(3)] for i=1:N-1]
+kp2=[[-2*pi/N*i,4*pi/sqrt(3)/N*(N-i)-2*pi/sqrt(3)/N*i] for i=1:N-1]
+k=cat(ks,kp,ks1[end:-1:1],dims=1)
+k1=cat(ks1,kp1,ks2[end:-1:1],dims=1)
+k2=cat(ks,kp2,ks2[end:-1:1],dims=1)
+
+
+
+#计算激发谱
+w,sp=Spectra(sd,k)
+#能量[向量],谱[Array(3[xx,yy,xx],k点数目,能量数目)]=Spectra(sd,倒空间点)
+#可选：用FFT计算全空间激发谱：w,k,sp=Spectra(sd)
+
+
+
+
+
+sp=log.(sp.+1)
+
+
+using Plots
+heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])&#39;,yrange=(0,4),clims=(0,maximum(sp)/10000))</code></pre><img src="ad505ffd.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../">« Home</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.4.0 on <span class="colophon-date" title="Saturday 20 April 2024 09:34">Saturday 20 April 2024</span>. Using Julia version 1.10.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
