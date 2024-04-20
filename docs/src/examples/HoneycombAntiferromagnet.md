@@ -3,7 +3,7 @@ CurrentModule = ClassicalSpinMonteCarlo
 ```
 # Honeycomb Antiferromagnet
 
-Spin dynamics of Heisenberg model in honeycomb lattice.
+Spin dynamics of XXZ model in honeycomb lattice.
 
 ```@example
 using ClassicalSpinMonteCarlo
@@ -19,9 +19,9 @@ b1 = addBasisSite!(uc, (0.0,0.0))
 b2 = addBasisSite!(uc, (0.5, √3/6))
 
 #自旋相互作用矩阵(sx sy sz)*J*(sx sy sz)'
-J1y = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.0]
-J1x = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.0]
-J1z = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.0]
+J1y = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
+J1x = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
+J1z = [1.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.10]
 
 #dxy= -0.23*1.08/3*[1.0 1.0 1.0;1.0 1.0 1.0;1.0 1.0 1.0]
 
@@ -142,7 +142,7 @@ sp=log.(sp.+1)
 
 
 using Plots
-heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,0.000001))
+heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,maximum(sp)/100))
 ```
 
 
