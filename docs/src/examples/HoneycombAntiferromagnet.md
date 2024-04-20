@@ -142,7 +142,7 @@ sp=log.(sp.+1)
 
 
 using Plots
-heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,maximum(sp)/10000))
+heatmap(1:3*N+1,w,(sp[1,:,:]+sp[2,:,:]+sp[3,:,:])',yrange=(0,4),clims=(0,maximum(sp)/100000))
 ```
 
 
